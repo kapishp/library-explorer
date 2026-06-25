@@ -1304,6 +1304,20 @@ button.secondary {
     width: fit-content !important;
 }
 
+/* ── Fix file output components — don't apply generic pill styling to them ── */
+[data-testid="file"] [data-testid="block-label"] {
+    position: static !important;
+    display: block !important;
+    width: auto !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+[data-testid="file"] [data-testid="block-label"] span {
+    color: var(--text) !important;
+    font-weight: 700 !important;
+}
+
 [data-testid="block-label"] span,
 [data-testid="block-label"] *,
 .label-wrap span,
@@ -1441,7 +1455,7 @@ custom_theme = gr.themes.Default(
 )
 
 with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
-    
+
     gr.HTML(f"""
     <div style="text-align:center; padding: 2.5rem 1rem 2rem; 
                 background: linear-gradient(135deg, #1e40af, #3b82f6); 
