@@ -1829,7 +1829,7 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS, theme=custom_theme) as demo:
                 [unimod_filter_log, step3_container, filtered_df_state])
             detect_isoforms_btn.click(on_detect_isoforms, [filtered_df_state, protein_id_dropdown],
                 [isoform_checkboxes, apply_protein_btn])
-            apply_protein_btn.click(on_apply_protein_filter, [filtered_df_state, protein_filter_mode, isoform_checkboxes],
+            apply_protein_btn.click(on_apply_protein_filter, [filtered_df_state, protein_filter_mode, protein_id_dropdown],
                 [protein_filter_log, step4_container, filtered_df_state])
             download_btn.click(on_download, [filtered_df_state, output_filename], [final_stats, filter_download])
 
