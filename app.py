@@ -1212,398 +1212,191 @@ def run_highlight_plot(prot_lib_file, protein_id, pasef_file_prot, overlay_prot,
 # ─────────────────────────────────────────────
 
 CUSTOM_CSS = """
-:root, .gradio-container, .dark {
-    --body-text-color: #1e293b !important;
-    --body-text-color-subdued: #475569 !important;
-    --block-label-text-color: #1e3a5f !important;
-    --input-placeholder-color: #475569 !important;
-    --neutral-700: #1e293b !important;
-    --neutral-500: #475569 !important;
+:root {
+    --primary: #2563eb;
+    --primary-light: #3b82f6;
+    --accent: #10b981;
+    --bg: #0f172a;
+    --card: #1e2937;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
 }
 
-/* ── Base ── */
 .gradio-container {
-    background: #f0f4f8 !important;
-    font-family: 'Inter', 'Segoe UI', sans-serif !important;
-}
-
-/* ── Header Banner ── */
-.explodia-header {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 60%, #0ea5e9 100%);
-    border-radius: 16px;
-    padding: 28px 36px;
-    margin-bottom: 8px;
-    box-shadow: 0 4px 24px rgba(30,58,95,0.18);
-}
-
-.explodia-header h1 {
-    color: #ffffff !important;
-    font-size: 2.4rem !important;
-    font-weight: 900 !important;
-    letter-spacing: -0.03em !important;
-    margin: 0 !important;
-}
-
-.explodia-header p {
-    color: #bfdbfe !important;
-    font-size: 1rem !important;
-    margin: 4px 0 0 0 !important;
-}
-
-/* ── Tabs ── */
-.tab-nav, nav[role="tablist"] {
-    background: #ffffff !important;
-    border-radius: 12px !important;
-    padding: 6px !important;
-    gap: 4px !important;
-    border: 1px solid #e2e8f0 !important;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
-    display: flex !important;
-    flex-wrap: nowrap !important;
-}
-
-.tab-nav button, button[role="tab"] {
-    color: #475569 !important;
-    font-weight: 600 !important;
-    font-size: 0.88rem !important;
-    border-radius: 8px !important;
-    padding: 8px 16px !important;
-    border: none !important;
-    background: transparent !important;
-    transition: all 0.2s !important;
-    white-space: nowrap !important;
-}
-
-.tab-nav button:hover, button[role="tab"]:hover {
-    background: #f0f4f8 !important;
-    color: #1e3a5f !important;
-}
-
-.tab-nav button.selected, button[role="tab"][aria-selected="true"] {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%) !important;
-    color: #ffffff !important;
-    font-weight: 700 !important;
-    box-shadow: 0 2px 8px rgba(37,99,235,0.3) !important;
-    border-bottom: none !important;
+    background: linear-gradient(180deg, #0f172a 0%, #1e2937 100%) !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
 }
 
 /* ── Panels ── */
-.block, .gr-group, .gr-form, .gap, .contain, .panel {
-    background: #ffffff !important;
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 14px !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
+.gr-block, .gr-panel, .gr-box, .block, .gr-group, .gr-form, .gap, .contain, .panel {
+    background: var(--card) !important;
+    border: 1px solid #334155 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
 }
 
-/* ── Buttons ── */
-button.primary, .gr-button-primary {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%) !important;
-    color: #ffffff !important;
-    border: none !important;
-    border-radius: 10px !important;
-    font-weight: 700 !important;
-    font-size: 0.95rem !important;
-    padding: 10px 24px !important;
-    box-shadow: 0 2px 8px rgba(37,99,235,0.25) !important;
-    transition: all 0.2s !important;
-}
-
-button.primary:hover {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 16px rgba(37,99,235,0.35) !important;
-}
-
-button.secondary {
-    background: #ffffff !important;
-    color: #1e3a5f !important;
-    border: 1.5px solid #2563eb !important;
-    border-radius: 10px !important;
-    font-weight: 600 !important;
-    transition: all 0.2s !important;
-}
-
-button.secondary:hover {
-    background: #eff6ff !important;
-}
-
-/* ── File upload zones ── */
-.gr-file, [data-testid="file"] {
-    border: 2.5px dashed #93c5fd !important;
-    border-radius: 12px !important;
-    background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%) !important;
-    transition: all 0.2s !important;
-}
-
-.gr-file:hover, [data-testid="file"]:hover {
-    border-color: #2563eb !important;
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
-}
-
-/* ── Inputs ── */
-textarea, input[type="text"], select {
-    background: #f8fafc !important;
-    color: #1e293b !important;
-    border: 1.5px solid #e2e8f0 !important;
-    border-radius: 8px !important;
-}
-
-/* ── ALL text dark ── */
+/* ── All text light (single dark theme, no light/dark conflict) ── */
 .gradio-container p, .gradio-container span,
 .gradio-container label, .gradio-container div,
 .gradio-container h1, .gradio-container h2,
 .gradio-container h3, .gradio-container h4,
-.gr-markdown, .gr-markdown p, .gr-markdown li,
-.gr-markdown h1, .gr-markdown h2,
-.gr-markdown h3, .gr-markdown h4 {
-    color: #1e293b !important;
+.gr-markdown, .gr-markdown p, .gr-markdown li {
+    color: var(--text) !important;
 }
 
-/* ── Fix faded placeholder and label text ── */
-.gradio-container-6-14-0 * {
-    --block-label-text-color: #1e3a5f !important;
-    --input-placeholder-color: #475569 !important;
+.gr-markdown h1, .gr-markdown h2, .gr-markdown h3 {
+    color: #60a5fa !important;
+}
+
+/* ── Buttons ── */
+.gr-button, button {
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.gr-button-primary, button.primary {
+    background: linear-gradient(90deg, var(--primary), var(--primary-light)) !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+.gr-button-primary:hover, button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(37 99 235 / 0.3);
+}
+
+button.secondary {
+    background: #1e2937 !important;
+    color: var(--text) !important;
+    border: 1.5px solid var(--primary) !important;
+}
+
+/* ── Tabs ── */
+.gr-tab, .tab-nav button, button[role="tab"] {
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600 !important;
+    color: var(--muted) !important;
+}
+
+.gr-tab-selected, .tab-nav button.selected, button[role="tab"][aria-selected="true"] {
+    background: #1e40af !important;
+    color: white !important;
+    border-bottom: 3px solid #60a5fa !important;
+}
+
+/* ── Plots ── */
+.plot-container, .gr-plot, [data-testid="plot"] {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    border: 1px solid #334155 !important;
+}
+
+/* ── Pill-style block labels (file uploads, plots, etc.) ── */
+[data-testid="block-label"], .label-wrap {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    padding: 4px 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    width: fit-content !important;
 }
 
 [data-testid="block-label"] span,
-.block-label span,
-span[data-testid="block-label"] {
-    color: #1e3a5f !important;
-    opacity: 1 !important;
+[data-testid="block-label"] *,
+.label-wrap span,
+.label-wrap * {
+    color: #ffffff !important;
     font-weight: 700 !important;
-    font-size: 0.9rem !important;
+    font-size: 0.85rem !important;
 }
 
-input[type="text"]::placeholder,
-input::placeholder,
-textarea::placeholder {
-    color: #475569 !important;
-    opacity: 1 !important;
+/* ── File upload zones ── */
+.gr-file, [data-testid="file"] {
+    background: #1e2937 !important;
+    border: 2px dashed #475569 !important;
+    border-radius: 12px !important;
 }
 
-[data-testid="file"] .wrap span,
-.file .wrap .wrap-inner span {
-    color: #475569 !important;
-    opacity: 1 !important;
-    font-weight: 500 !important;
+.gr-file:hover, [data-testid="file"]:hover {
+    border-color: var(--primary-light) !important;
 }
 
-/* ── Radio buttons ── */
-.wrap, .wrap-inner, .labels, .label-wrap,
-span.label-wrap, .wrap span, .options,
-.option, .option label, .options label,
-[data-testid="radio-group"] label,
-fieldset label, fieldset span,
-fieldset > div, fieldset > div > label {
-    background: #f8fafc !important;
-    color: #1e293b !important;
-    font-weight: 500 !important;
+/* ── Inputs ── */
+textarea, input[type="text"], select {
+    background: #0f172a !important;
+    color: var(--text) !important;
+    border: 1.5px solid #334155 !important;
+    border-radius: 8px !important;
+}
+
+input[type="text"]::placeholder, textarea::placeholder {
+    color: var(--muted) !important;
+}
+
+/* ── Radio / checkbox groups ── */
+.wrap-inner, .options, .option, fieldset label,
+fieldset span, fieldset > div {
+    background: #1e2937 !important;
+    color: var(--text) !important;
 }
 
 /* ── Accordion ── */
 details > summary {
-    background: #f8fafc !important;
-    color: #1e3a5f !important;
+    background: #1e2937 !important;
+    color: #60a5fa !important;
     font-weight: 600 !important;
     border-radius: 8px !important;
     padding: 10px 14px !important;
     cursor: pointer !important;
-    border: 1px solid #e2e8f0 !important;
-}
-
-/* ── Plots ── */
-.gr-plot, [data-testid="plot"] {
-    border-radius: 12px !important;
-    border: 1px solid #e2e8f0 !important;
-    overflow: hidden !important;
+    border: 1px solid #334155 !important;
 }
 
 /* ── Table ── */
 table, th, td {
-    color: #1e293b !important;
-    background: #ffffff !important;
+    background: #1e2937 !important;
+    color: var(--text) !important;
 }
 
 /* ── Color pickers ── */
 .color-swatch input[type=color] {
-    width: 48px !important;
-    height: 32px !important;
-    border-radius: 6px !important;
+    width: 52px !important;
+    height: 38px !important;
+    border-radius: 8px !important;
+    border: 2px solid #475569 !important;
     cursor: pointer !important;
-    border: 1.5px solid #e2e8f0 !important;
 }
 
 /* ── Info text ── */
 .info, span.info, .description {
-    color: #64748b !important;
+    color: var(--muted) !important;
     font-size: 0.82rem !important;
-}
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #f0f4f8; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
-/* ── Fix block labels like Frequency vs Normalized RT ── */
-.block > .label-wrap > span,
-.form > .label-wrap > span,
-label > span, .label > span,
-span.svelte-1gfkn6j, span.svelte-1p9xokt,
-.wrap > span, .container > span {
-    color: #1e3a5f !important;
-    font-weight: 700 !important;
-    font-size: 0.92rem !important;
-    opacity: 1 !important;
-}
-
-/* ── Specific svelte class fixes ── */
-.svelte-1ed2p3z, .svelte-1ed2p3z span,
-[class*="label"] span {
-    color: #1e3a5f !important;
-    opacity: 1 !important;
-    font-weight: 600 !important;
-}
-
-/* ── FINAL FIX: faded label/placeholder text — high specificity override ── */
-.gradio-container.gradio-container-6-14-0 {
-    --block-label-text-color: #1e3a5f !important;
-    --block-label-text-color-dark: #1e3a5f !important;
-    --input-placeholder-color: #475569 !important;
-    --body-text-color-subdued: #475569 !important;
-}
-
-.gradio-container.gradio-container-6-14-0 [data-testid="block-label"],
-.gradio-container.gradio-container-6-14-0 [data-testid="block-label"] span,
-.gradio-container.gradio-container-6-14-0 .label-wrap span {
-    color: #1e3a5f !important;
-    opacity: 1 !important;
-    font-weight: 700 !important;
-}
-
-.gradio-container.gradio-container-6-14-0 [data-testid="file"] .wrap span,
-.gradio-container.gradio-container-6-14-0 [data-testid="file"] .wrap-inner span,
-.gradio-container.gradio-container-6-14-0 .upload-text,
-.gradio-container.gradio-container-6-14-0 .file-upload span {
-    color: #475569 !important;
-    opacity: 1 !important;
-}
-
-/* ── Centered header with logo ── */
-.explodia-header {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-}
-
-.explodia-header-row {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 16px !important;
-}
-
-.explodia-header img {
-    height: 56px !important;
-    width: 56px !important;
-    border-radius: 50% !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
-}
-
-/* ── More color accents ── */
-.gr-group {
-    border-left: 4px solid #2563eb !important;
-}
-
-/* ── Theme toggle button ── */
-.theme-toggle-btn {
-    position: fixed !important;
-    top: 18px !important;
-    right: 18px !important;
-    z-index: 9999 !important;
-    background: #ffffff !important;
-    border: 1.5px solid #e2e8f0 !important;
-    border-radius: 50% !important;
-    width: 44px !important;
-    height: 44px !important;
-    font-size: 1.3rem !important;
-    cursor: pointer !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-/* ── Dark mode — fix at the CSS variable root level ── */
-body.explodia-dark, body.explodia-dark .gradio-container {
-    --body-text-color: #e2e8f0 !important;
-    --body-text-color-subdued: #94a3b8 !important;
-    --block-label-text-color: #93c5fd !important;
-    --input-placeholder-color: #94a3b8 !important;
-    --neutral-700: #e2e8f0 !important;
-    --neutral-500: #94a3b8 !important;
-    background: #0f172a !important;
-}
-
-body.explodia-dark .block, body.explodia-dark .gr-group,
-body.explodia-dark .gr-form, body.explodia-dark .panel,
-body.explodia-dark .contain {
-    background: #1e293b !important;
-    border-color: #334155 !important;
-}
-
-body.explodia-dark .gradio-container p,
-body.explodia-dark .gradio-container span,
-body.explodia-dark .gradio-container label,
-body.explodia-dark .gradio-container div,
-body.explodia-dark .gr-markdown, body.explodia-dark .gr-markdown p,
-body.explodia-dark .gr-markdown li {
-    color: #e2e8f0 !important;
-}
-
-body.explodia-dark .tab-nav, body.explodia-dark nav[role="tablist"] {
-    background: #1e293b !important;
-    border-color: #334155 !important;
-}
-
-body.explodia-dark .tab-nav button, body.explodia-dark button[role="tab"] {
-    color: #94a3b8 !important;
-}
-
-body.explodia-dark textarea, body.explodia-dark input[type="text"],
-body.explodia-dark select {
-    background: #0f172a !important;
-    color: #e2e8f0 !important;
-    border-color: #334155 !important;
-}
-
-body.explodia-dark .info, body.explodia-dark span.info {
-    color: #94a3b8 !important;
-}
-
-body.explodia-dark table, body.explodia-dark th, body.explodia-dark td {
-    background: #1e293b !important;
-    color: #e2e8f0 !important;
 }
 
 /* ── Extractor note ── */
 .extractor-note {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border: 1.5px solid #f59e0b;
-    border-radius: 10px;
-    padding: 12px 16px;
-    margin-bottom: 12px;
-    font-size: 0.9rem;
-    color: #92400e !important;
+    background: linear-gradient(135deg, #422006 0%, #451a03 100%) !important;
+    border: 1.5px solid #92400e !important;
+    border-radius: 10px !important;
+    padding: 12px 16px !important;
+    margin-bottom: 12px !important;
+    font-size: 0.9rem !important;
+    color: #fde68a !important;
 }
 
-body.explodia-dark .prose,
-body.explodia-dark [data-testid="markdown"],
-body.explodia-dark [data-testid="markdown-wrapper"],
-body.explodia-dark .html-container {
-    background: #1e293b !important;
-    color: #e2e8f0 !important;
+/* ── Upload prompt text ── */
+.upload-prompt-text {
+    color: var(--muted) !important;
+    padding: 8px !important;
 }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
 """
 
 def _ptm_color_panel(prefix="ptm"):
@@ -1647,19 +1440,19 @@ custom_theme = gr.themes.Default(
     button_secondary_border_color="#3b82f6",
 )
 
-with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS, theme=custom_theme) as demo:
-
+with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
+    
     gr.HTML(f"""
-    <button class="theme-toggle-btn" onclick="
-        document.body.classList.toggle('explodia-dark');
-        this.textContent = document.body.classList.contains('explodia-dark') ? '☀️' : '🌙';
-    ">🌙</button>
-    <div class="explodia-header">
-        <div class="explodia-header-row">
-            <img src="data:image/png;base64,{LOGO_B64}" alt="ExploDIA logo">
-            <h1>ExploDIA</h1>
+    <div style="text-align:center; padding: 2.5rem 1rem 2rem; 
+                background: linear-gradient(135deg, #1e40af, #3b82f6); 
+                border-radius: 0 0 24px 24px; margin-bottom: 2rem; color:white;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:16px;">
+            <img src="data:image/png;base64,{LOGO_B64}" alt="ExploDIA logo" style="height:64px;width:64px;border-radius:50%;box-shadow:0 2px 10px rgba(0,0,0,0.3);">
+            <h1 style="font-size:3rem; font-weight:800; margin:0; letter-spacing:-0.04em; color:white;">ExploDIA</h1>
         </div>
-        <p>A complete toolkit for spectral library analysis, merging, and visualization</p>
+        <p style="color:#bae6fd; font-size:1.15rem; max-width:680px; margin:12px auto 0;">
+            A complete toolkit for spectral library analysis, merging, and visualization
+        </p>
     </div>
     """)
 
