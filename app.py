@@ -743,13 +743,16 @@ def on_apply_protein_filter(filepath, mode, selected_prots):
         return "No file loaded.", gr.update(visible=False), None
     try:
         df = pd.read_csv(filepath, sep="\t", low_memory=False)
+        # TEMP DEBUG
+        sample_ids = df["ProteinId"].dropna().astype(str).unique()[:5].tolist()
+        debug_msg = f"DEBUG: selected={selected_prots} | sample_in_file={sample_ids}"
         if mode == "Keep ONLY selected":
-            df = df[df["ProteinId"].isin(selected_prots)]
+            df = df[df["ProteinId"].astype(str).isin(selected_prots)]
         elif mode == "Remove selected":
-            df = df[~df["ProteinId"].isin(selected_prots)]
+            df = df[~df["ProteinId"].astype(str).isin(selected_prots)]
         filtered_path = get_temp_path("filtered_step3.tsv")
         df.to_csv(filtered_path, sep="\t", index=False)
-        return f"Filter applied. {len(df):,} rows remaining.", gr.update(visible=True), filtered_path
+        return f"{debug_msg}\nFilter applied. {len(df):,} rows remaining.", gr.update(visible=True), filtered_path
     except Exception as e:
         return f"❌ Error: {str(e)}", gr.update(visible=False), None
 
@@ -1780,7 +1783,7 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS, theme=custom_theme) as demo:
                 <strong>downloadable version</strong> of ExploDIA instead of the online version.
             </div>
             """)
-            
+
             with gr.Group():
                 gr.Markdown("#### 1. Upload & Detect")
                 gr.Markdown("**📁 Upload Library**")
