@@ -1,0 +1,6 @@
+gradio
+pandas
+datasets
+matplotlib
+numpy
+plotly
