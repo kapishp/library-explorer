@@ -1411,6 +1411,30 @@ table, th, td {
 ::-webkit-scrollbar-track { background: #0f172a; }
 ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* ── Step badge headers ── */
+.step-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #ffffff;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
 """
 
 def _ptm_color_panel(prefix="ptm"):
@@ -1550,19 +1574,19 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
             """)
 
             with gr.Group():
-                gr.Markdown("#### 1. Upload & Detect")
+                gr.HTML('<div class="step-badge"><span class="step-num">1</span> Upload &amp; Detect</div>')
                 filter_file = gr.File(label="📁 Upload Library", file_types=[".tsv",".txt",".csv"])
                 filter_load_status = gr.Markdown("Ready for upload.")
                 detected_unimods_display = gr.Markdown(visible=False)
 
             with gr.Group(visible=False) as step2_container:
-                gr.Markdown("#### 2. Remove UniMod Modifications")
+                gr.HTML('<div class="step-badge"><span class="step-num">2</span> Remove UniMod Modifications</div>')
                 unimod_checkboxes = gr.CheckboxGroup(choices=[], label="Select modifications to REMOVE")
                 remove_unimod_btn = gr.Button("🧹 Apply Mod Filter", variant="primary")
                 unimod_filter_log = gr.Textbox(label="Mod Filter Result", lines=3, interactive=False)
 
             with gr.Group(visible=False) as step3_container:
-                gr.Markdown("#### 3. Protein Filtering")
+                gr.HTML('<div class="step-badge"><span class="step-num">3</span> Protein Filtering</div>')
                 protein_filter_mode = gr.Radio(
                     choices=["Keep ONLY selected", "Remove selected", "Skip protein filtering"],
                     value="Skip protein filtering",
@@ -1576,7 +1600,7 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
                 protein_filter_log  = gr.Textbox(label="Protein Filter Result", lines=3, interactive=False)
 
             with gr.Group(visible=False) as step4_container:
-                gr.Markdown("#### 4. Export")
+                gr.HTML('<div class="step-badge"><span class="step-num">4</span> Export</div>')
                 output_filename = gr.Textbox(label="Filename", value="filtered_library.tsv")
                 download_btn    = gr.Button("💾 Finalize & Download", variant="primary")
                 final_stats     = gr.Markdown()
@@ -1676,7 +1700,7 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
             gr.Markdown("*Hover any point to inspect peptide details. Modified peptides appear as **◆ diamonds**, unmodified as **● circles**.*")
 
             with gr.Group():
-                gr.Markdown("#### Step 1 — Load Library & Select Protein")
+                gr.HTML('<div class="step-badge"><span class="step-num">1</span> Load Library &amp; Select Protein</div>')
                 with gr.Row():
                     prot_lib_file = gr.File(label="📁 Library File (.tsv or .csv)",
                                              file_types=[".tsv",".csv",".txt"], type="filepath", scale=2)
@@ -1687,7 +1711,7 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
                                                     info="Choose from list or type an exact ID")
 
             with gr.Group():
-                gr.Markdown("#### Step 2 — PASEF Overlay (Optional)")
+                gr.HTML('<div class="step-badge"><span class="step-num">2</span> PASEF Overlay (Optional)</div>')
                 with gr.Row():
                     pasef_file_prot = gr.File(label="📁 PASEF Window File (.txt/.csv)",
                                                file_types=[".txt",".csv"], type="filepath")
@@ -1711,14 +1735,14 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
                     prot_ptm_pickers = _ptm_color_panel("prot_ptm")
 
             with gr.Group():
-                gr.Markdown("#### Step 3 — Generate Overview Plot")
+                gr.HTML('<div class="step-badge"><span class="step-num">3</span> Generate Overview Plot</div>')
                 prot_viz_btn  = gr.Button("🔬 Generate Peptide Cloud (Plot 1)", variant="primary", size="lg")
                 prot_log      = gr.Textbox(label="Status Log", lines=5)
                 prot_plot1    = gr.Plot(label="Overview — Peptide Cloud")
                 prot_download = gr.File(label="⬇️ Download Full Precursor Table (.tsv)")
 
             with gr.Group(visible=False) as highlight_section:
-                gr.Markdown("#### Step 4 — Select Peptides to Highlight")
+                gr.HTML('<div class="step-badge"><span class="step-num">4</span> Select Peptides to Highlight</div>')
                 gr.Markdown("*🔶 = modified peptide &nbsp;&nbsp; ⚪ = unmodified peptide.*")
                 peptide_dropdown = gr.Dropdown(choices=[], value=None, multiselect=True,
                                                label="Select Peptide(s) to Highlight",
@@ -1727,7 +1751,7 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
                 label_sl_input = gr.Textbox(label="Sl_No (fallback)", placeholder="e.g. 1,5,12", value="")
 
             with gr.Group(visible=False) as plot2_btn_group:
-                gr.Markdown("#### Step 5 — Generate Highlighted Plot")
+                gr.HTML('<div class="step-badge"><span class="step-num">5</span> Generate Highlighted Plot</div>')
                 plot2_btn = gr.Button("🎯 Generate Highlighted Plot (Plot 2)", variant="primary", size="lg")
 
             prot_plot2 = gr.Plot(label="Highlighted Peptides — Plot 2", visible=True)
@@ -1747,6 +1771,16 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
                          pasef_type_prot, pasef_opacity_prot, peptide_dropdown, label_sl_input]
                         + prot_ptm_pickers),
                 outputs=[prot_log, prot_plot2, prot_table])
+
+    gr.HTML("""
+    <div style="text-align:center; padding: 24px 16px; margin-top: 24px;
+                border-top: 1px solid #334155; color: #64748b; font-size: 0.85rem;">
+        ExploDIA v1.0 &nbsp;•&nbsp;
+        <a href="https://github.com/kapishp/library-explorer" target="_blank" style="color:#60a5fa;text-decoration:none;">GitHub</a>
+        &nbsp;•&nbsp;
+        <a href="https://github.com/kapishp/library-explorer/issues" target="_blank" style="color:#60a5fa;text-decoration:none;">Report an Issue</a>
+    </div>
+    """)
 
 if __name__ == "__main__":
     demo.queue(default_concurrency_limit=3, max_size=20)
