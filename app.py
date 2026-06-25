@@ -1596,6 +1596,14 @@ body.explodia-dark table, body.explodia-dark th, body.explodia-dark td {
     font-size: 0.9rem;
     color: #92400e !important;
 }
+
+body.explodia-dark .prose,
+body.explodia-dark [data-testid="markdown"],
+body.explodia-dark [data-testid="markdown-wrapper"],
+body.explodia-dark .html-container {
+    background: #1e293b !important;
+    color: #e2e8f0 !important;
+}
 """
 
 def _ptm_color_panel(prefix="ptm"):
