@@ -1430,29 +1430,9 @@ def _charge_color_panel():
 # ─────────────────────────────────────────────
 # GRADIO UI
 # ─────────────────────────────────────────────
-
-custom_theme = gr.themes.Default(
-    primary_hue=gr.themes.colors.blue,
-    neutral_hue=gr.themes.colors.slate,
-).set(
-    body_background_fill="#f0f4f8",
-    body_text_color="#1e293b",
-    block_background_fill="#ffffff",
-    block_label_background_fill="#f0f4f8",
-    block_label_text_color="#1e3a5f",
-    block_label_text_weight="700",
-    input_background_fill="#f8fafc",
-    input_border_color="#e2e8f0",
-    checkbox_background_color="#ffffff",
-    checkbox_label_background_fill="#f8fafc",
-    checkbox_label_text_color="#1e293b",
-    checkbox_label_text_weight="600",
-    button_primary_background_fill="linear-gradient(135deg, #1e3a5f 0%, #3b82f6 100%)",
-    button_primary_text_color="#ffffff",
-    button_secondary_background_fill="#ffffff",
-    button_secondary_text_color="#1e3a5f",
-    button_secondary_border_color="#3b82f6",
-)
+# ─────────────────────────────────────────────
+# GRADIO UI
+# ─────────────────────────────────────────────
 
 with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
 
@@ -1480,24 +1460,18 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
             gr.Markdown("**Workflow:** Upload a file → select a protein (or *Overall*) → statistics and plots appear automatically.")
             with gr.Row():
                 with gr.Column(scale=3):
-                    gr.Markdown("**📁 Upload Library File (.tsv / .csv / .txt)**")
                     explorer_file = gr.File(
-                        label="Upload Library File",
+                        label="📁 Upload Library File (.tsv / .csv / .txt)",
                         file_types=[".tsv", ".txt", ".csv"],
                         type="filepath",
-                        show_label=False,
-                        container=False,
                     )
                 with gr.Column(scale=2):
-                    gr.Markdown("**🔬 Filter by Protein**")
                     exp_protein_dd = gr.Dropdown(
-                        label="Filter by Protein",
+                        label="🔬 Filter by Protein",
                         choices=["Overall"],
                         value=None,
                         visible=False,
                         allow_custom_value=False,
-                        show_label=False,
-                        container=False,
                         info="Choose 'Overall' for full library or pick a specific protein",
                     )
 
@@ -1512,23 +1486,13 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
                     exp_chg_pickers = _charge_color_panel()
 
             with gr.Row():
-                with gr.Column():
-                    gr.Markdown("**Frequency vs Normalized RT**")
-                    plot_rt = gr.Plot(label="Frequency vs Normalized RT", show_label=False, container=False)
-                with gr.Column():
-                    gr.Markdown("**Frequency vs Precursor m/z**")
-                    plot_mz = gr.Plot(label="Frequency vs Precursor m/z", show_label=False, container=False)
+                plot_rt = gr.Plot(label="Frequency vs Normalized RT")
+                plot_mz = gr.Plot(label="Frequency vs Precursor m/z")
             with gr.Row():
-                with gr.Column():
-                    gr.Markdown("**Avg RT vs Precursor m/z**")
-                    plot_rt_mz = gr.Plot(label="Avg RT vs Precursor m/z", show_label=False, container=False)
-                with gr.Column():
-                    gr.Markdown("**Avg RT vs Frequency**")
-                    plot_rt_freq = gr.Plot(label="Avg RT vs Frequency", show_label=False, container=False)
+                plot_rt_mz   = gr.Plot(label="Avg RT vs Precursor m/z")
+                plot_rt_freq = gr.Plot(label="Avg RT vs Frequency")
             with gr.Row():
-                with gr.Column():
-                    gr.Markdown("**Precursor Charge vs Precursor m/z**")
-                    plot_charge_mz = gr.Plot(label="Precursor Charge vs Precursor m/z", show_label=False, container=False)
+                plot_charge_mz = gr.Plot(label="Precursor Charge vs Precursor m/z")
 
             _exp_all_inputs = ([explorer_file, exp_protein_dd] + exp_ptm_pickers + exp_chg_pickers)
             _exp_plot_outputs = [plot_rt, plot_mz, plot_rt_mz, plot_rt_freq, plot_charge_mz]
@@ -1547,38 +1511,24 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
         with gr.TabItem("🔗 Library Merger"):
             gr.Markdown("### Merge two spectral libraries into one unified file")
             with gr.Row():
-                with gr.Column():
-                    gr.Markdown("**📁 First Library (.tsv)**")
-                    merger_file1 = gr.File(label="First Library", file_types=[".tsv",".txt",".csv"], type="filepath", show_label=False, container=False)
-                with gr.Column():
-                    gr.Markdown("**📁 Second Library (.tsv)**")
-                    merger_file2 = gr.File(label="Second Library", file_types=[".tsv",".txt",".csv"], type="filepath", show_label=False, container=False)
+                merger_file1 = gr.File(label="📁 First Library (.tsv)", file_types=[".tsv",".txt",".csv"], type="filepath")
+                merger_file2 = gr.File(label="📁 Second Library (.tsv)", file_types=[".tsv",".txt",".csv"], type="filepath")
 
             with gr.Row():
-                with gr.Column():
-                    gr.Markdown("**Duplicate Handling**")
-                    dup_choice = gr.Radio(
-                        choices=["Remove duplicates from Library 1", "Keep all duplicates"],
-                        value="Remove duplicates from Library 1",
-                        label="Duplicate Handling",
-                        show_label=False,
-                        container=False,
-                    )
-                with gr.Column():
-                    gr.Markdown("**Column Mismatch Strategy**")
-                    col_choice = gr.Radio(
-                        choices=["Keep only common columns", "Preserve all columns"],
-                        value="Keep only common columns",
-                        label="Column Mismatch Strategy",
-                        show_label=False,
-                        container=False,
-                    )
+                dup_choice = gr.Radio(
+                    choices=["Remove duplicates from Library 1", "Keep all duplicates"],
+                    value="Remove duplicates from Library 1",
+                    label="Duplicate Handling",
+                )
+                col_choice = gr.Radio(
+                    choices=["Keep only common columns", "Preserve all columns"],
+                    value="Keep only common columns",
+                    label="Column Mismatch Strategy",
+                )
 
-            merge_btn = gr.Button("🔗 Merge Libraries", variant="primary", size="lg")
-            gr.Markdown("**Merge Log**")
-            merger_output = gr.Textbox(label="Merge Log", lines=26, show_label=False, container=False)
-            gr.Markdown("**⬇️ Download Merged Library**")
-            download_output = gr.File(label="Download Merged Library", show_label=False, container=False)
+            merge_btn       = gr.Button("🔗 Merge Libraries", variant="primary", size="lg")
+            merger_output   = gr.Textbox(label="Merge Log", lines=26)
+            download_output = gr.File(label="⬇️ Download Merged Library")
             merge_btn.click(fn=merge_libraries,
                             inputs=[merger_file1, merger_file2, dup_choice, col_choice],
                             outputs=[merger_output, download_output])
@@ -1601,8 +1551,7 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
 
             with gr.Group():
                 gr.Markdown("#### 1. Upload & Detect")
-                gr.Markdown("**📁 Upload Library**")
-                filter_file = gr.File(label="Upload Library", file_types=[".tsv",".txt",".csv"], show_label=False, container=False)
+                filter_file = gr.File(label="📁 Upload Library", file_types=[".tsv",".txt",".csv"])
                 filter_load_status = gr.Markdown("Ready for upload.")
                 detected_unimods_display = gr.Markdown(visible=False)
 
@@ -1610,33 +1559,28 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
                 gr.Markdown("#### 2. Remove UniMod Modifications")
                 unimod_checkboxes = gr.CheckboxGroup(choices=[], label="Select modifications to REMOVE")
                 remove_unimod_btn = gr.Button("🧹 Apply Mod Filter", variant="primary")
-                gr.Markdown("**Mod Filter Result**")
-                unimod_filter_log = gr.Textbox(label="Mod Filter Result", lines=3, interactive=False, show_label=False, container=False)
+                unimod_filter_log = gr.Textbox(label="Mod Filter Result", lines=3, interactive=False)
 
             with gr.Group(visible=False) as step3_container:
                 gr.Markdown("#### 3. Protein Filtering")
-                gr.Markdown("**Filtering Mode**")
                 protein_filter_mode = gr.Radio(
                     choices=["Keep ONLY selected", "Remove selected", "Skip protein filtering"],
                     value="Skip protein filtering",
                     label="Mode",
-                    show_label=False,
-                    container=False,
                 )
                 protein_id_dropdown = gr.Dropdown(choices=[], label="Select Protein IDs", multiselect=True,
                                                    interactive=True, info="Search and select proteins.")
                 detect_isoforms_btn = gr.Button("🔍 Find Related Isoforms", variant="secondary")
                 isoform_checkboxes  = gr.CheckboxGroup(choices=[], label="Detected Isoforms", visible=False)
                 apply_protein_btn   = gr.Button("🔬 Apply Protein Filter", variant="primary")
-                gr.Markdown("**Protein Filter Result**")
-                protein_filter_log  = gr.Textbox(label="Protein Filter Result", lines=3, interactive=False, show_label=False, container=False)
+                protein_filter_log  = gr.Textbox(label="Protein Filter Result", lines=3, interactive=False)
 
             with gr.Group(visible=False) as step4_container:
                 gr.Markdown("#### 4. Export")
                 output_filename = gr.Textbox(label="Filename", value="filtered_library.tsv")
                 download_btn    = gr.Button("💾 Finalize & Download", variant="primary")
                 final_stats     = gr.Markdown()
-                filter_download = gr.File(label="Download Link", show_label=False, container=False)
+                filter_download = gr.File(label="Download Link")
 
             filter_file.change(on_filter_file_upload, filter_file,
                 [filter_load_status, step2_container, unimod_checkboxes, protein_id_dropdown, filtered_df_state])
@@ -1655,14 +1599,10 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
             gr.Markdown("### Visualize precursor m/z vs Ion Mobility space")
             gr.Markdown("*Hover over any data point to inspect peptide, PTM, m/z, and mobility values.*")
             with gr.Row():
-                with gr.Column():
-                    gr.Markdown("**📁 Method Library (.tsv or .csv)**")
-                    method_file_input = gr.File(label="Method Library",
-                                                 file_types=[".tsv",".csv",".txt"], type="filepath", show_label=False, container=False)
-                with gr.Column():
-                    gr.Markdown("**📁 PASEF Window File (.txt/.csv) — optional**")
-                    pasef_file_input  = gr.File(label="PASEF Window File",
-                                                 file_types=[".txt",".csv"], type="filepath", show_label=False, container=False)
+                method_file_input = gr.File(label="📁 Method Library (.tsv or .csv)",
+                                             file_types=[".tsv",".csv",".txt"], type="filepath")
+                pasef_file_input  = gr.File(label="📁 PASEF Window File (.txt/.csv) — optional",
+                                             file_types=[".txt",".csv"], type="filepath")
 
             with gr.Row():
                 overlay_toggle = gr.Checkbox(label="Overlay PASEF Windows", value=False)
@@ -1678,13 +1618,10 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
             overlay_toggle.change(fn=_update_pasef_controls, inputs=overlay_toggle,
                                    outputs=[pasef_type_dropdown, pasef_opacity_slider])
 
-            gr.Markdown("**Analysis Mode**")
             analysis_mode_radio = gr.Radio(
                 choices=["Map UniMod Modifications", "Map Missed Cleavages", "None (just plot)"],
                 value="None (just plot)",
                 label="Analysis Mode",
-                show_label=False,
-                container=False,
             )
 
             with gr.Column(visible=False) as unimod_section:
@@ -1722,11 +1659,9 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
                 with gr.Row():
                     viz_ptm_pickers = _ptm_color_panel("viz_ptm")
 
-            viz_btn = gr.Button("📡 Generate Visualization", variant="primary", size="lg")
-            gr.Markdown("**Processing Log**")
-            viz_log = gr.Textbox(label="Processing Log", lines=8, show_label=False, container=False)
-            gr.Markdown("**Interactive m/z vs Ion Mobility Plot**")
-            viz_plot = gr.Plot(label="Interactive m/z vs Ion Mobility Plot", show_label=False, container=False)
+            viz_btn  = gr.Button("📡 Generate Visualization", variant="primary", size="lg")
+            viz_log  = gr.Textbox(label="Processing Log", lines=8)
+            viz_plot = gr.Plot(label="Interactive m/z vs Ion Mobility Plot")
             viz_btn.click(fn=run_visualization,
                           inputs=([method_file_input, pasef_file_input, overlay_toggle,
                                    pasef_type_dropdown, analysis_mode_radio, unimod_input,
@@ -1742,27 +1677,20 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
 
             with gr.Group():
                 gr.Markdown("#### Step 1 — Load Library & Select Protein")
-                gr.Markdown("**📁 Library File (.tsv or .csv)**")
                 with gr.Row():
-                    prot_lib_file = gr.File(label="Library File",
-                                             file_types=[".tsv",".csv",".txt"], type="filepath",
-                                             show_label=False, container=False, scale=2)
+                    prot_lib_file = gr.File(label="📁 Library File (.tsv or .csv)",
+                                             file_types=[".tsv",".csv",".txt"], type="filepath", scale=2)
                 prot_load_status = gr.Markdown("*Upload a library file to populate the protein list.*")
-                gr.Markdown("**Select Protein ID**")
                 with gr.Row():
                     protein_dropdown = gr.Dropdown(choices=[], value=None, label="Select Protein ID",
-                                                    allow_custom_value=True, show_label=False,
-                                                    container=False, scale=2,
+                                                    allow_custom_value=True, scale=2,
                                                     info="Choose from list or type an exact ID")
 
             with gr.Group():
                 gr.Markdown("#### Step 2 — PASEF Overlay (Optional)")
                 with gr.Row():
-                    with gr.Column():
-                        gr.Markdown("**📁 PASEF Window File (.txt/.csv)**")
-                        pasef_file_prot = gr.File(label="PASEF Window File",
-                                                   file_types=[".txt",".csv"], type="filepath",
-                                                   show_label=False, container=False)
+                    pasef_file_prot = gr.File(label="📁 PASEF Window File (.txt/.csv)",
+                                               file_types=[".txt",".csv"], type="filepath")
                     with gr.Column():
                         overlay_prot = gr.Checkbox(label="Overlay PASEF Windows", value=False)
                         pasef_type_prot = gr.Dropdown(
@@ -1784,35 +1712,26 @@ with gr.Blocks(title="ExploDIA", css=CUSTOM_CSS) as demo:
 
             with gr.Group():
                 gr.Markdown("#### Step 3 — Generate Overview Plot")
-                prot_viz_btn = gr.Button("🔬 Generate Peptide Cloud (Plot 1)", variant="primary", size="lg")
-                gr.Markdown("**Status Log**")
-                prot_log = gr.Textbox(label="Status Log", lines=5, show_label=False, container=False)
-                gr.Markdown("**Overview — Peptide Cloud**")
-                prot_plot1 = gr.Plot(label="Overview — Peptide Cloud", show_label=False, container=False)
-                gr.Markdown("**⬇️ Download Full Precursor Table (.tsv)**")
-                prot_download = gr.File(label="Download Precursor Table", show_label=False, container=False)
+                prot_viz_btn  = gr.Button("🔬 Generate Peptide Cloud (Plot 1)", variant="primary", size="lg")
+                prot_log      = gr.Textbox(label="Status Log", lines=5)
+                prot_plot1    = gr.Plot(label="Overview — Peptide Cloud")
+                prot_download = gr.File(label="⬇️ Download Full Precursor Table (.tsv)")
 
             with gr.Group(visible=False) as highlight_section:
                 gr.Markdown("#### Step 4 — Select Peptides to Highlight")
                 gr.Markdown("*🔶 = modified peptide &nbsp;&nbsp; ⚪ = unmodified peptide.*")
-                gr.Markdown("**Select Peptide(s) to Highlight**")
                 peptide_dropdown = gr.Dropdown(choices=[], value=None, multiselect=True,
-                                               label="Select Peptides",
-                                               allow_custom_value=False, show_label=False,
-                                               container=False, scale=2, visible=True)
+                                               label="Select Peptide(s) to Highlight",
+                                               allow_custom_value=False, scale=2, visible=True)
                 gr.Markdown("*Or enter Sl_No values manually (comma-separated):*")
-                label_sl_input = gr.Textbox(label="Sl_No (fallback)", placeholder="e.g. 1,5,12",
-                                             value="", show_label=False, container=False)
+                label_sl_input = gr.Textbox(label="Sl_No (fallback)", placeholder="e.g. 1,5,12", value="")
 
             with gr.Group(visible=False) as plot2_btn_group:
                 gr.Markdown("#### Step 5 — Generate Highlighted Plot")
                 plot2_btn = gr.Button("🎯 Generate Highlighted Plot (Plot 2)", variant="primary", size="lg")
 
-            gr.Markdown("**Highlighted Peptides — Plot 2**")
-            prot_plot2 = gr.Plot(label="Highlighted Peptides — Plot 2", visible=True, show_label=False, container=False)
-            gr.Markdown("**Selected Peptide Details**")
-            prot_table = gr.Dataframe(label="Selected Peptide Details", interactive=False, wrap=True,
-                                       visible=True, show_label=False)
+            prot_plot2 = gr.Plot(label="Highlighted Peptides — Plot 2", visible=True)
+            prot_table = gr.Dataframe(label="Selected Peptide Details", interactive=False, wrap=True, visible=True)
 
             prot_lib_file.change(fn=load_protein_library, inputs=prot_lib_file,
                                   outputs=[protein_dropdown, prot_load_status])
